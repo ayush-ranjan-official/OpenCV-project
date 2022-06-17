@@ -6,32 +6,30 @@ import numpy as np
 img1 = cv.imread(r"C:\Users\ayush\Downloads\CVtask.png")
 font = cv.FONT_HERSHEY_COMPLEX
 img = cv.resize(img1, (0, 0), fx = 0.6, fy = 0.6)
-#cv.imshow('Cats', img)
+
 
 blank = np.zeros(img.shape, dtype='uint8')
-#cv.imshow('Blank', blank)
+
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-#cv.imshow('Gray', gray)
 
-#blur = cv.GaussianBlur(gray, (5,5), cv.BORDER_DEFAULT)
-#cv.imshow('Blur', blur)
+
 
 canny = cv.Canny(gray, 0, 35)
-#cv.imshow('Canny Edges', canny)
+
 
 ret, thresh = cv.threshold(gray, 125, 255, cv.THRESH_BINARY)
-#cv.imshow('Thresh', thresh)
+
 
 contours, hierarchies = cv.findContours(canny, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
 print(f'{len(contours)} contour(s) found!')
 
-#cv.drawContours(blank, contours, -1, (0,0,255), 1)
+
 
 
 for contour in contours:
     approx = cv.approxPolyDP(contour, 0.01* cv.arcLength(contour, True), True)
-    #cv.drawContours(img, [approx], 0, (0, 0, 0), 5)
+   
     x = approx.ravel()[0]
     y = approx.ravel()[1] - 5
 
@@ -40,7 +38,7 @@ for contour in contours:
         aspectRatio = float(w)/h
         print(aspectRatio)
         if aspectRatio >= 0.95 and aspectRatio <= 1.05:
-          #cv.putText(img, "square", (x, y), cv.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 0))
+          
           n = approx.ravel()
           i = 0
 
@@ -49,23 +47,19 @@ for contour in contours:
                   x = n[i]
                   y = n[i + 1]
 
-                  # String containing the co-ordinates.
+                 
                   string = str(x) + " " + str(y)
 
                   if (i == 0):
-                      # text on topmost co-ordinate.
+                      
                       cv.putText(img, "Arrow tip", (x, y), font, 0.5, (255, 0, 0))
                   else:
-                      # text on remaining co-ordinates.
+                      
                       cv.putText(img, string, (x, y), font, 0.5, (0, 255, 0))
               i = i + 1
 
 
-    # draws boundary of contours.
-    #cv2.drawContours(img2, [approx], 0, (0, 0, 255), 5)
-
-    # Used to flatted the array containing
-    # the co-ordinates of the vertices.
+    
 
 
 cv.imshow("shapes", img)
@@ -82,27 +76,12 @@ img2 = cv.imread(r"C:\Users\ayush\Downloads\HaHa.jpg")
 findaruco(img2)
 img3 = cv.imread(r"C:\Users\ayush\Downloads\LMAO.jpg")
 findaruco(img3)
-image = cv.rotate(img, cv.ROTATE_7_ANTICLOCKWISE)
-small_img = cv.resize(img4,(245,245))
-image[73:318,58:303] = small_img
-img = cv.rotate(image, cv.ROTATE_7_CLOCKWISE)
-cv.imshow("img", img)
+
 img4= cv.imread(r"C:\Users\ayush\Downloads\XD.jpg")
 findaruco(img4)
 small_img = cv.resize(img4,(213,213))
 img[43:256,701:914] = small_img
 cv.imshow("img", img)
-#x_end = 701 + 213
-#701,43
-#small_img = cv2.resize(watermark,(300,300))
-#y_end = y_offset + small_img.shape[0]
-#large_img = cv2.imread('FDN.jpg')
-#watermark = cv2.imread('Watermark.jpg')
-#x_end = x_offset + small_img.shape[1]
-#y_end = y_offset + small_img.shape[0]
-#large_img[y_offset:y_end,x_offset:x_end] = small_img
-#cv2_imshow(large_img)
 
-#cv.destroyAllWindows()
 
 cv.waitKey(0)
